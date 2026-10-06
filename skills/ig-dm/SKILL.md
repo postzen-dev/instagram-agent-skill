@@ -114,10 +114,11 @@ the call. The parts:
 - `template`: an image card instead of buttons. `{ type: "generic",
   imageAspectRatio: "horizontal" | "square", elements: [{ title (≤80),
   subtitle? (≤80), imageUrl, buttons? (≤3) }] }`, 1 to 10 elements; several
-  elements render as a swipeable carousel. **`imageUrl` must be a stable
-  public HTTPS URL on the user's own hosting.** Do not use a
-  `createMediaPresign` URL here: an upload that is never attached to a post is
-  deleted after about 24 hours, and the card goes blank. If Meta rejects a
+  elements render as a swipeable carousel. `imageUrl` is a public HTTPS URL
+  Meta can fetch. A `createMediaPresign` `publicUrl` works and PostZen keeps
+  it for as long as an automation uses it, but **upload the file to the
+  `uploadUrl` before you create the automation**, or the card has nothing to
+  show. Any stable public image URL works too. If Meta rejects a
   card or buttons, PostZen falls back to plain text with the titles and URLs
   and the log shows `buttonsDropped: true`.
 - `dmDelaySeconds`: 0 to 86400, default 0. A short delay reads less like a

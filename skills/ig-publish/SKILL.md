@@ -136,9 +136,8 @@ post. The caption (`content`) is capped at 2,200 characters, as is
 duration. Build feed and carousel images at 1080x1350 (4:5) or 1:1, and
 reels and stories at 1080x1920 (9:16). `/ig-reel` has the length guidance.
 
-A presigned upload that never ends up in a post is deleted after about 24
-hours. That is fine for posting. It matters for `/ig-dm`, which must not use
-presign URLs for automation image cards.
+A presigned upload that ends up in neither a post nor a comment automation
+card is deleted after about 24 hours. Upload, then post, the same day.
 
 ## Step 3: build the call
 
