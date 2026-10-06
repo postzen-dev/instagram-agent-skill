@@ -1,13 +1,13 @@
 {
-  "name": "instagram-agent",
-  "description": "Thirteen Claude skills that run an Instagram account: Reels off 26 hook formulas with a scored hook and a timed beat sheet, a research skill that finds what is working in your niche and ranks it by outlier multiple, captions linted against the feed truncation, carousels, stories, profile score, weekly plan, comments, replies, DMs, repurposing, audits, and a humanizer that strips the AI fingerprint before anything ships.",
-  "version": "1.0.0",
+  "name": "postzen-instagram",
+  "description": "Fourteen Claude skills that run an Instagram account and, through the PostZen MCP server, publish, schedule, reply to comments and DMs, run comment-to-DM automations and read analytics via the official Instagram API. Reels off 26 hook formulas with a scored hook and a timed beat sheet, a research skill that ranks what is working in your niche by outlier multiple, captions linted against the feed truncation, carousels, stories, profile score, weekly plan, comments, replies, DMs, repurposing, audits, a humanizer that strips the AI fingerprint before anything ships, and a publish skill that verifies the post actually went out. Nothing is posted until you say yes.",
+  "version": "1.1.0",
   "author": {
-    "name": "Jake Schincariol",
-    "url": "https://opusjake.ai"
+    "name": "PostZen",
+    "url": "https://www.postzen.dev"
   },
-  "homepage": "https://github.com/Jakeschincariol/instagram-agent-skill",
-  "repository": "https://github.com/Jakeschincariol/instagram-agent-skill",
+  "homepage": "https://github.com/postzen-dev/instagram-agent-skill",
+  "repository": "https://github.com/postzen-dev/instagram-agent-skill",
   "license": "MIT",
-  "keywords": ["instagram", "reels", "content", "writing", "humanizer", "social", "marketing"]
+  "keywords": ["instagram", "postzen", "mcp", "reels", "content", "writing", "humanizer", "social", "marketing", "publishing", "analytics"]
 }

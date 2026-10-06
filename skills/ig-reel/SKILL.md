@@ -92,9 +92,24 @@ caption:    run /ig-caption next
 Reply "yes" to log it, or tell me what to change.
 ```
 
-**7. Never publish.** This skill produces a script. The user shoots it and
-posts it. On "yes", append to `~/.claude/instagram/log.md` with the date, the
-hook formula used and the first line, so `/ig-audit` has a history later.
+**7. Then the gate.** This skill produces a script. The user shoots it. On
+"yes", append one line to `~/.claude/instagram/log.md` with the date, the
+hook formula used and the first line, so `/ig-audit` has a history later:
+
+```
+2026-10-07  REEL  #3 Nobody Tells You  "Nobody tells you that your first 30 reels are supposed to flop."
+```
+
+`/ig-publish` adds the PostZen post id and the permalink to the same line
+when the reel goes out.
+
+Once the video exists, there are two ways out. If the PostZen MCP tools are
+in this session (`listAccounts`, `createPost`), offer `/ig-publish`: it takes
+the file, the caption from `/ig-caption`, `postType: "reel"`, and publishes,
+schedules or queues it after one more explicit yes to the exact caption,
+account and time. If PostZen is not connected, the user posts by hand from
+the copy-ready block, which is how this always worked. Either way, nothing
+goes out from this skill.
 
 ## On-screen text is a separate script
 

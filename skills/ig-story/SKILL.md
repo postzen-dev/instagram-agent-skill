@@ -94,4 +94,17 @@ STORIES  ·  Tuesday  ·  5 frames
 After: everyone who votes Yes gets a reply. That is the whole funnel.
 ```
 
-Nothing is posted. The user posts it.
+Nothing is posted by this skill, and for stories, the user mostly posts by
+hand even with PostZen connected. Here is the honest line:
+
+- The API publishes a story as **one bare image or video**. No poll, no
+  question box, no link, quiz, slider, countdown or "add yours", and no
+  caption: Meta ignores story captions and PostZen does not send one. So a
+  sticker frame, which is usually the frame that matters, is a manual post.
+  Mark it `[manual]` in the sequence.
+- A plain photo or video frame can go through `/ig-publish` with
+  `postType: "story"`, one frame per call, if the user wants it scheduled.
+  The user confirms each frame there.
+- Replies to a story arrive as DMs, so `/ig-dm` can answer those through
+  PostZen inside Meta's 24-hour window. Anything that did not open a DM
+  thread (a poll vote, a quiz answer) is answered by hand.

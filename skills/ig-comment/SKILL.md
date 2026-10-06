@@ -92,3 +92,8 @@ Do not auto-post, do not automate comments, and do not use a browser tool to
 publish on the user's behalf. Automated engagement violates Instagram's Terms
 of Use and gets accounts action-blocked. This skill writes the comment. The
 user posts it.
+
+That stays true with PostZen connected. PostZen's comment tools work on the
+user's own posts only; the API does not comment on other people's posts, and
+automated engagement on other accounts is exactly what gets an account
+blocked. Commenting on someone else's post is a manual act, every time.

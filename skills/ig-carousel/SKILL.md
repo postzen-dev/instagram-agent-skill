@@ -100,4 +100,16 @@ CAROUSEL  ·  8 slides
 Caption: Job B, hook in line 1, one ask, 3 tags.
 ```
 
-Nothing is uploaded. The user posts it.
+Nothing is uploaded by this skill. Once the copy is approved and the files
+are rendered, there are two ways out:
+
+- **PostZen connected** (the `createPost` and `createMediaPresign` tools are
+  in this session): offer `/ig-publish` with `postType: "carousel"`. It
+  uploads each slide, in order, and the caption rides along as `content`.
+  Three things to know before offering it: the API takes **2 to 10 items**,
+  so a deck past 10 is a manual post; export the slides as **JPEG**, because
+  PostZen does not convert PNG for Instagram; and the API does not carry alt
+  text or photo tags on carousels, so alt text on the cover is added in the
+  app afterwards. The user confirms the full post there before anything goes
+  out.
+- **Not connected:** the user posts it by hand, as before.

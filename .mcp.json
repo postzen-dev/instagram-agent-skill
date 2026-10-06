@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "postzen": {
+      "type": "http",
+      "url": "https://mcp.postzen.dev/mcp"
+    }
+  }
+}

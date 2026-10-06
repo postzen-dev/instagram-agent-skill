@@ -3,9 +3,9 @@ name: ig-audit
 description: >-
   Post-mortem on what the user has already posted - which reels actually
   worked, why, and what to stop making. Use when the user pastes their
-  Instagram insights or past posts and asks "what's working", "why did this
-  flop", "read my analytics", "audit my content", or wants to know what to do
-  more of.
+  Instagram insights or past posts, or has PostZen connected, and asks
+  "what's working", "why did this flop", "read my analytics", "audit my
+  content", or wants to know what to do more of.
 ---
 
 # ig-audit
@@ -27,23 +27,70 @@ Ask for whichever the user has:
 Also read `~/.claude/instagram/log.md` if it exists, since it records which
 hook formula each post used.
 
+### Pulling it yourself through PostZen
+
+If the PostZen MCP tools are in this session, most of the numbers come from
+there and the user only screenshots what the API does not carry.
+
+1. `listAccounts({ platform: "instagram" })` for the account `_id`.
+2. `getAnalytics({ platform: "instagram", accountId, source: "all", fromDate,
+   toDate, limit: 100, sortBy: "date" })`. Per post you get `content`,
+   `publishedAt`, `mediaType` (`image`, `video`, `carousel`),
+   `platformAnalytics[].platformPostUrl`, and `analytics` with `views`,
+   `reach`, `likes`, `comments`, `shares`, `saves`, `engagementRate`. Page
+   with `page` if `pagination` says there is more. `source: "all"` includes
+   posts published by hand, which PostZen imports going back up to 366 days
+   from when the account was connected. Date ranges are clamped to 366 days.
+   If the last month looks thin, `syncExternalPosts({ accountId })` pulls
+   the latest 20 posts from the last 30 days on demand.
+3. `getDailyMetrics({ platform: "instagram", accountId, fromDate, toDate })`
+   for the week-by-week shape. These are post metrics summed by publish date,
+   not account insights. `attribution: "received"` puts the numbers on the
+   day they were observed instead.
+4. `getFollowerStats({ accountIds: "<_id>", fromDate, toDate })` for the
+   follower curve. `accountIds` is a comma-separated string, not an array.
+   PostZen reads only the current follower count from Instagram and builds
+   the history from its own snapshots, so expect the curve to start at the
+   connection date. A week-old connection has a week of points.
+5. `getPostTimeline({ postId })` for one post's day-by-day numbers when the
+   question is how long a reel kept travelling.
+
+Three things about these numbers:
+
+- `impressions` is a copy of `views`; Instagram retired impressions.
+- `clicks` is always 0 for Instagram. It is not reported, so it is not a
+  real zero.
+- `engagementRate` is (likes + comments + shares + saves) / views × 100.
+  Useful for ranking, but it is not the Instagram app's number.
+
+**What still needs a screenshot**, because the API does not expose it to
+anyone: the retention graph and hold at 3 seconds, average watch time,
+non-follower share of reach, follows per post, profile visits, link taps,
+and every story metric (story insights expire after 24 hours and PostZen
+skips them). Ask for the retention graphs of the best and worst three; that
+is still the most valuable input on the page.
+
 ## What to actually measure
 
 Raw views is the least useful number on the page, because it is mostly a
 function of how many people already follow the account. Compute these instead
 and show the working:
 
-| metric | how | what it tells you |
-| --- | --- | --- |
-| **Outlier multiple** | views / the account's own median views | whether this was a real hit or a normal day |
-| **Non-follower reach** | % of reach from people who do not follow | whether it travelled at all |
-| **Hold at 3s** | viewers still there at 3s / viewers who started | whether the hook worked. This is the hook's grade. |
-| **Average watch time** | straight from insights | whether the middle worked |
-| **Sends per reach** | shares / reach | the strongest single signal you can earn. A send is a person putting their name on it. |
-| **Follows per reach** | follows / reach | whether the profile converted the attention |
+| metric | how | source | what it tells you |
+| --- | --- | --- | --- |
+| **Outlier multiple** | views / the account's own median views | PostZen or screenshot | whether this was a real hit or a normal day |
+| **Non-follower reach** | % of reach from people who do not follow | screenshot only | whether it travelled at all |
+| **Hold at 3s** | viewers still there at 3s / viewers who started | screenshot only | whether the hook worked. This is the hook's grade. |
+| **Average watch time** | straight from insights | screenshot only | whether the middle worked |
+| **Sends per reach** | shares / reach | PostZen or screenshot | the strongest single signal you can earn. A send is a person putting their name on it. |
+| **Saves per reach** | saves / reach | PostZen or screenshot | whether it was worth keeping. Carousels live on this one. |
+| **Follows per reach** | follows / reach | screenshot only | whether the profile converted the attention |
 
 Rank by outlier multiple and sends per reach, not views. A reel with 4,000
-views and 90 sends beat the one with 60,000 views and 11.
+views and 90 sends beat the one with 60,000 views and 11. With PostZen data
+alone you can rank every post on the first, fifth and sixth rows and the
+engagement rate, which is enough for a first pass. Say which rows are
+missing rather than filling them in.
 
 ## Then find the pattern
 

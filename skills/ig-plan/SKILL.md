@@ -62,6 +62,50 @@ their hooks work, they are polishing the wrong thing, and you should say so.
 
 Anchor times to the audience's timezone, not the user's, if those differ.
 
+### With PostZen connected
+
+If the PostZen MCP tools are in this session, the "when" column stops being a
+guess about the audience and becomes the account's own history:
+
+- `getBestTimeToPost({ platform: "instagram", accountId })` buckets the
+  account's posts from the last 366 days by publish weekday and hour and
+  ranks the buckets by average engagement (likes + comments + shares +
+  saves). Hours come back in **UTC**; convert them before they go in the
+  plan. Show `post_count` next to each slot: there is no minimum, so a slot
+  with one lucky post can rank first, and a slot built on one post is an
+  anecdote. Reach and follower activity are not in this number.
+- `getAnalytics({ platform: "instagram", accountId, source: "all", sortBy:
+  "engagement" })` for which themes and formats carried the last 90 days,
+  which outranks the share table above. `/ig-audit` does this properly; use
+  its conclusions if it has run.
+- `listPosts({ platform: "instagram", accountId, status: "scheduled",
+  sortBy: "scheduledFor" })`, and again with `status: "queued"`, so the plan
+  shows what is already booked and does not double up a day. Only posts
+  created in PostZen appear here.
+
+**Queue slots.** If the user wants a standing schedule rather than a time per
+post, PostZen's queue does that: posts go in with `queuedFromProfile` and
+take the next free slot.
+
+- `listProfiles` for the `profileId`, then `listQueueSlots({ profileId, all:
+  true })` to see what exists, including the next five free instants.
+- `createQueueSlot({ profileId, timezone: "America/Toronto", slots: [{
+  dayOfWeek: 2, time: "19:30" }, { dayOfWeek: 4, time: "19:00" }, { dayOfWeek:
+  0, time: "18:00" }], name: "Instagram" })` creates a whole queue. `dayOfWeek`
+  is 0 for Sunday. The first queue on a profile becomes its default. Show the
+  slots with the timezone and get a yes before creating.
+- `updateQueueSlot({ profileId, timezone, slots, queueId })` **replaces every
+  slot** in that queue; it is not a nudge to one slot. Send the full list
+  each time. Posts already placed keep their times unless
+  `reshuffleExisting: true`.
+- `deleteQueueSlot` **without a `queueId` deletes every queue on the
+  profile.** Never call it without one, and confirm with the user first.
+- `previewQueue({ profileId })` returns the upcoming free instants, not the
+  posts in them. For posts, use `listPosts` as above.
+
+Writing a time into the plan does not schedule anything. `/ig-publish` does
+that, one post at a time, after each one is written and approved.
+
 ## The engagement round, which is not optional
 
 20 minutes a day, before posting, not after. Build a list of 10:
@@ -96,5 +140,5 @@ Say "write Tuesday" and I will draft it.
 ```
 
 Write the plan to `~/.claude/instagram/plan.md` so the other skills can read
-it. Nothing is scheduled or posted anywhere. This is a plan and the user runs
-it.
+it. Nothing is scheduled or posted by this skill. This is a plan; the user
+runs it, and `/ig-publish` schedules each post once it exists.

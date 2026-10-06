@@ -1,50 +1,62 @@
 # The Instagram agent skill
 
-Thirteen Claude skills that run an Instagram account. Free, MIT, no signup, no
-API key, nothing to connect.
+Fourteen Claude skills that run an Instagram account, and with
+[PostZen](https://www.postzen.dev) connected, can publish, schedule, reply to
+comments and DMs, run comment-to-DM automations and read analytics through
+the official Instagram API. Free, MIT. PostZen's free plan is $0 with no card.
+Without PostZen, every skill still works the way it always did: it writes,
+you post.
 
 One of them writes your Reels off 26 hook formulas and scores the hook before
 you waste a take on it. One goes and finds the reels that are actually working
 in your niche and ranks them by how far each beat its own account. One writes
 the caption and shows you exactly what the feed shows before the "... more".
 One scores your profile out of 100 and rewrites what lost points. One plans the
-week.
+week. One publishes, and then checks that it really published.
 
 And one is the humanizer, which is the reason the rest are usable. It strips
 the em dashes, the slop vocabulary and the invisible watermark characters out
 of a draft, then scores what is left against a five-check panel before you ever
 see it.
 
-**Nothing gets posted until you say yes.** These skills write. You post.
+**Nothing gets posted until you say yes.** Not posted, not scheduled, not
+replied, not hidden, not sent. Every skill shows you the exact content, the
+account and the time, and waits.
 
 ## Install
 
-Paste this into Claude:
+As a plugin, in Claude Code:
 
 ```
-https://github.com/Jakeschincariol/instagram-agent-skill
-
-Install this skill, then confirm /ig-reel works.
+/plugin marketplace add postzen-dev/instagram-agent-skill
+/plugin install postzen-instagram
 ```
 
-Or do it yourself, in Claude Code:
+The plugin registers the PostZen MCP server for you. Then run `/mcp`, pick
+`postzen`, and Authenticate. A browser tab opens on PostZen, you sign in there,
+and nothing is pasted into Claude. Pick **Read & Write** if you want to
+publish; Read Only is enough for audits.
+
+Or copy the skills by hand:
 
 ```bash
-git clone https://github.com/Jakeschincariol/instagram-agent-skill.git
+git clone https://github.com/postzen-dev/instagram-agent-skill.git
 cp -r instagram-agent-skill/skills/ig-* ~/.claude/skills/
+claude mcp add --transport http postzen https://mcp.postzen.dev/mcp
 ```
 
-Or as a plugin:
+Then `/mcp`, `postzen`, Authenticate, as above. Project-local instead of
+global: copy the same folders into your repo's `.claude/skills/`. No Claude
+Code at all? Paste any single `SKILL.md` at the top of a chat and it runs as a
+mode. You lose the five Python tools and the PostZen tools, but the writing
+works.
 
-```
-/plugin marketplace add Jakeschincariol/instagram-agent-skill
-/plugin install instagram-agent
-```
-
-Project-local instead of global: copy the same folders into your repo's
-`.claude/skills/`. No Claude Code at all? Paste any single `SKILL.md` at the top
-of a chat and it runs as a mode. You lose the five Python tools, which is most
-of the point of `/ig-reel` and `/ig-human`, but the rest works.
+**Connecting Instagram.** Say "connect my Instagram" and `/ig-publish` walks
+you through it: it asks PostZen for a connect link, you open it and complete
+Instagram Login, done. The account has to be an Instagram **Business or
+Creator** account; personal accounts cannot connect. No Facebook Page is
+needed. PostZen's free plan covers 2 connected accounts and 20 posts a month,
+no card required.
 
 Then spend ten minutes on `templates/voice.md`. Copy it to
 `~/.claude/instagram/voice.md` and fill it in, or send Claude three of your own
@@ -52,23 +64,24 @@ reels and say "write my voice.md from these". Every skill reads that file. It
 matters more here than on other platforms, because you have to say the words
 out loud.
 
-## The thirteen
+## The fourteen
 
-| command | what it does |
-| --- | --- |
-| `/ig-reel` | One idea into a Reel. Three hooks from [26 formulas](skills/ig-reel/hooks.json), scored, then the script, the on-screen text and a timed beat sheet. |
-| `/ig-viral` | Goes and finds what is working in your niche, ranks it by multiple over each account's own median, names the formula, writes the swipe file. |
-| `/ig-caption` | The caption, linted. Shows you the 125 characters the feed actually shows before the tap. |
-| `/ig-carousel` | Swipe posts. The cover that earns the swipe, slide copy, and the 1080x1350 files. |
-| `/ig-story` | The daily story sequence, which sticker does which job, and the DM funnel that starts with them moving first. |
-| `/ig-profile` | Scores your profile against a [12-part rubric](skills/ig-profile/rubric.json) out of 100, then rewrites in fix-first order. |
-| `/ig-plan` | The week. What to post, which format, when, and the 10 accounts to engage with. |
-| `/ig-human` | The humanizer. Two scripts that actually run. See below. |
-| `/ig-comment` | Comments on other people's posts. Nine types, picked by what the post actually is. Never "🔥🔥🔥". |
-| `/ig-reply` | The thread under your own post. Sorts into keyword / lead / substance / question / support / noise, then writes in that order. |
-| `/ig-dm` | The keyword delivery, the first message, the collab pitch, and the two follow-ups. Two. |
-| `/ig-repurpose` | One video, podcast or newsletter into a week of reels and carousels that each stand alone. |
-| `/ig-audit` | Post-mortem on what you already posted. Ranks by outlier multiple and sends per reach, not views. |
+| command | what it does | with PostZen connected |
+| --- | --- | --- |
+| `/ig-reel` | One idea into a Reel. Three hooks from [26 formulas](skills/ig-reel/hooks.json), scored, then the script, the on-screen text and a timed beat sheet. | hands the finished video to `/ig-publish` |
+| `/ig-viral` | Goes and finds what is working in your niche, ranks it by multiple over each account's own median, names the formula, writes the swipe file. | unchanged. It reads, it never scrapes |
+| `/ig-caption` | The caption, linted. Shows you the 125 characters the feed actually shows before the tap. | caption and first comment go straight into the post |
+| `/ig-carousel` | Swipe posts. The cover that earns the swipe, slide copy, and the 1080x1350 files. | publishes up to 10 slides, in order |
+| `/ig-story` | The daily story sequence, which sticker does which job, and the DM funnel that starts with them moving first. | plain frames publish; sticker frames stay manual, because the API has no stickers |
+| `/ig-profile` | Scores your profile against a [12-part rubric](skills/ig-profile/rubric.json) out of 100, then rewrites in fix-first order. | unchanged. You edit the fields |
+| `/ig-plan` | The week. What to post, which format, when, and the 10 accounts to engage with. | best time from your own history, what is already scheduled, queue slots |
+| `/ig-human` | The humanizer. Two scripts that actually run. See below. | unchanged |
+| `/ig-comment` | Comments on other people's posts. Nine types, picked by what the post actually is. Never "🔥🔥🔥". | unchanged, deliberately. The API does not comment on other people's posts |
+| `/ig-reply` | The thread under your own post. Sorts into keyword / lead / substance / question / support / noise, then writes in that order. | fetches the comments, sends the replies, hides the noise |
+| `/ig-dm` | The keyword delivery, the first message, the collab pitch, and the two follow-ups. Two. | the keyword delivery becomes a real comment-to-DM automation; replies inside the 24-hour window go out from here |
+| `/ig-repurpose` | One video, podcast or newsletter into a week of reels and carousels that each stand alone. | schedules the week on one confirmation |
+| `/ig-audit` | Post-mortem on what you already posted. Ranks by outlier multiple and sends per reach, not views. | pulls views, reach, likes, comments, shares, saves and follower history itself |
+| `/ig-publish` | The one skill that touches Instagram. Media in, `createPost`, the yes, then it verifies the post actually went out and logs it. | this is the PostZen skill |
 
 ## The five tools that actually run
 
@@ -219,11 +232,46 @@ SWIPE FILE  ·  4 reels  ·  4 accounts  ·  baseline: account median
            "in this video I am going to show you my morning routine"
 ```
 
-## What I actually measured, which is the part worth reading
+## What PostZen adds, and what it does not
 
-I did not want to publish a hook scorer on the claim that it feels right, so I
-tested it. The corpus is **74 real short-form hooks**: the first three seconds
-of the auto-caption track from the top eight and bottom eight performing shorts
+PostZen is a social media API with a hosted MCP server. It has already done
+the Meta developer app, the app review and the token handling, so Claude gets
+the official Content Publishing API without you building any of that.
+Through it the skills can:
+
+- **Publish, schedule, queue or draft** feed images, reels, carousels of 2 to
+  10 items, and bare story frames. `/ig-publish` then reads the real status
+  back, because a "published successfully" message is a mode label, not a
+  result. Reels and carousels can sit in `publishing` for a while; it waits
+  and checks.
+- **Read and answer comments** on your own posts, including posts you
+  published by hand. Hide the noise rather than delete it.
+- **Reply to DMs** in an existing thread, inside Meta's 24-hour window.
+- **Run comment-to-DM automations**: someone comments the keyword, they get
+  the DM and a public reply, with keyword modes, rotating variations, link
+  buttons or an image card, delays, an audience rule and an optional follow
+  gate. Meta's rules apply: one private reply per comment, within 7 days.
+- **Read analytics**: views, reach, likes, comments, shares, saves and
+  engagement rate per post, the follower count over time, and a best-time
+  table built from your own posts.
+
+What it does not do, because the Instagram API does not:
+
+- Choose a reel cover, pick audio, add a location, product tags or alt text.
+  User tags work on single-image feed posts only.
+- Put stickers on a story, or a caption. A poll frame is a manual post.
+- Open a new DM thread, or message anyone outside the 24-hour window.
+- Comment on other people's posts. That stays manual, and it should.
+- Edit or delete a post once it is published.
+- Hand over retention, watch time, non-follower reach, follows per post,
+  profile visits, link taps or any story metric. Those stay a screenshot
+  from the app.
+
+## What was actually measured, which is the part worth reading
+
+The hook scorer was not published on the claim that it feels right. It was
+tested. The corpus is **74 real short-form hooks**: the first three seconds of
+the auto-caption track from the top eight and bottom eight performing shorts
 on each of five channels, view counts from 931 to 550,000.
 
 They are YouTube Shorts rather than Reels, because Instagram does not hand you
@@ -250,43 +298,50 @@ two decent hooks will travel, because that is decided by your face, your edit,
 your audio and who Instagram shows it to.
 
 **3. The formula classifier was broken and the test is what caught it.** The
-`match` regexes in `hooks.json` were written off my own templates, and they
-named **8%** of real hooks. People do not speak in templates. Rewriting them
-against actual transcribed speech took it to **49%**, and four formulas went
-into the set because they kept appearing and were not there: Contrarian Flip,
-The Statistic, The Reveal, Someone Else's Result, plus The Superlative. On the
-other 51% it abstains, which is correct: a lot of short-form is podcast clips
-that have no hook formula at all.
+`match` regexes in `hooks.json` were first written off the formula templates
+themselves, and they named **8%** of real hooks. People do not speak in
+templates. Rewriting them against actual transcribed speech took it to
+**49%**, and four formulas went into the set because they kept appearing and
+were not there: Contrarian Flip, The Statistic, The Reveal, Someone Else's
+Result, plus The Superlative. On the other 51% it abstains, which is correct:
+a lot of short-form is podcast clips that have no hook formula at all.
 
 One fixed bug worth naming: `SPECIFICITY` only counted digits, so "zero
 dollars" and "three marketing books" scored as having nothing concrete in them.
 Spoken hooks say their numbers out loud.
 
-If you re-run this on a bigger or cleaner corpus and get a different answer, I
-would rather know. The measurement script is not in the repo because it depends
-on `yt-dlp`, but the method is four lines and is written out in
-[`/ig-viral`](skills/ig-viral/SKILL.md).
+If you re-run this on a bigger or cleaner corpus and get a different answer,
+open an issue. A different answer is worth knowing. The measurement script is
+not in the repo because it depends on `yt-dlp`, but the method is four lines
+and is written out in [`/ig-viral`](skills/ig-viral/SKILL.md).
 
 ## The fine print, which is the honest part
 
-**These skills do not post to Instagram.** There is a real Content Publishing
-API for Professional accounts, and it needs a Meta developer app, a linked
-Page, a long-lived token and app review, which is not a thing a skill can hand
-you. Everything else people use to automate posting, commenting, following or
-DMing is browser automation or a third-party tool, and both violate
+**Posting goes through the official API, and only through it.** PostZen uses
+Instagram's Content Publishing API for Professional accounts, which is the
+one sanctioned way to post by machine. It needs a Business or Creator account
+and it cannot do everything the app does; the list above is the list.
+Everything else people use to automate posting, commenting, following or
+DMing is browser automation or a scraping tool, and both violate
 [Instagram's Terms of Use](https://help.instagram.com/581066165581870) and get
-accounts action-blocked. So every skill here ends the same way: a copy-ready
-block, and you post it. That is not a limitation bolted on afterwards, it is
-the design, and it is why the approval gate is real rather than a setting.
+accounts action-blocked. No skill here drives a browser to post, comment,
+follow or message, with or without PostZen. Where the API has no door, the
+skill ends in a copy-ready block and you post it.
 
-The one exception is keyword auto-replies in DMs, which Instagram supports
-through its own tools and approved partners, and which only fire after somebody
-comments first. `/ig-dm` says where that line is.
+**The approval gate is real, not a setting.** Before anything is published,
+scheduled, replied, hidden or sent, the skill shows the exact content, the
+account handle and the time, and waits for a yes to that. A "looks good" about
+a draft three messages ago does not count. Drafts saved in PostZen need no
+confirmation, because nothing leaves.
 
 **`/ig-viral` reads, it does not scrape.** Ten accounts, a dozen reels each, at
 human speed, with you driving your own browser. It never asks for your password
 and never logs in as you. Automated collection at volume is the thing that gets
 accounts restricted, and a crawler is not what this is.
+
+**No skill handles your Instagram password.** Connecting goes through
+Instagram Login in your own browser; PostZen's MCP server is authorized in
+your browser too. Nothing is pasted into Claude.
 
 **The five detection checks are local heuristics, not detector APIs.** They are
 modelled on the signals public detectors key on and they run entirely on your
@@ -303,16 +358,21 @@ defeating a cryptographic watermarking scheme, and this repo does not make one.
 
 **Nothing here fabricates.** No invented metrics, clients or outcomes go under
 your name. If a draft needs a number you have not given, it comes back with
-`{{your number}}` in it and a flag, every time.
+`{{your number}}` in it and a flag, every time. The analytics numbers in
+`/ig-audit` are the ones PostZen read from Instagram or the ones you
+screenshotted, and the skill says which.
 
 **Platform numbers go stale.** The hashtag cap moved from 30 to 5 in December
 2025 while this repo was being written, and the linter had the old number in it
-until the fact got checked. If something here contradicts what Instagram is
-doing when you read it, Instagram is right.
+until the fact got checked. PostZen's limits and plan numbers in this README
+were checked in October 2026. If something here contradicts what Instagram or
+PostZen is doing when you read it, they are right.
 
 ## Files
 
 ```
+.mcp.json                          registers the PostZen MCP server for the plugin
+skills/ig-publish/SKILL.md         the only skill that touches Instagram
 skills/ig-reel/hooks.json          26 hook formulas: template, example, on-screen line,
                                    what it is for, how it gets ruined, and a match regex
 skills/ig-reel/hookscore.py        the five-property hook panel
@@ -326,12 +386,14 @@ skills/ig-profile/rubric.json      the 100-point profile score
 templates/voice.md                 your voice profile. Fill this in first.
 ```
 
-## Credit
+## Credits
 
-Made by Jake Schincariol, [opusjake.ai](https://opusjake.ai).
-
-Sibling repo, same idea for a different platform:
-[linkedin-agent-skill](https://github.com/Jakeschincariol/linkedin-agent-skill).
+This pack is a fork of Jake Schincariol's
+[instagram-agent-skill](https://github.com/Jakeschincariol/instagram-agent-skill)
+(MIT). He wrote the original thirteen skills, the 26 hook formulas, the
+humanizer and the five Python tools, and the measurement above is his.
+PostZen added `/ig-publish` and the publishing, inbox, automation and
+analytics layer across the other skills.
 
 ## License
 

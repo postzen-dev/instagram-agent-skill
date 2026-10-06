@@ -1,18 +1,18 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "instagram-agent-skill",
-  "description": "The Instagram agent skill pack for Claude",
+  "name": "postzen-instagram",
+  "description": "The Instagram agent skill pack for Claude, with publishing, comments, DMs and analytics through PostZen",
   "owner": {
-    "name": "Jake Schincariol",
-    "url": "https://opusjake.ai"
+    "name": "PostZen",
+    "url": "https://www.postzen.dev"
   },
   "plugins": [
     {
-      "name": "instagram-agent",
-      "description": "Thirteen Claude skills that run an Instagram account, including a scored hook panel, a viral research skill, a caption linter and a humanizer.",
+      "name": "postzen-instagram",
+      "description": "Fourteen Claude skills that run an Instagram account: a scored hook panel, a viral research skill, a caption linter, a humanizer, and publishing, comment replies, comment-to-DM automations and analytics through the PostZen MCP server. Nothing is posted until you say yes.",
       "source": "./",
       "category": "productivity",
-      "homepage": "https://github.com/Jakeschincariol/instagram-agent-skill"
+      "homepage": "https://github.com/postzen-dev/instagram-agent-skill"
     }
   ]
 }

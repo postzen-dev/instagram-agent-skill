@@ -94,7 +94,9 @@ python3 caption.py draft.txt --keywords "client proposals,agency pricing"
 - **Emoji as punctuation, not decoration.** The linter flags anything over
   4 per 100 characters.
 - **Alt text is worth 20 seconds.** For carousels and photos, write it. It is
-  read by screen readers and by Instagram.
+  read by screen readers and by Instagram. The API does not carry it, so if
+  the post goes out through `/ig-publish`, the user adds it in the app
+  afterwards. Write it anyway and put it in the receipt.
 
 ## The loop
 
@@ -116,4 +118,8 @@ search:     "client proposals" in line 3, "agency pricing" in line 5
 linter:     READY
 ```
 
-Nothing is posted. The user pastes it.
+Nothing is posted by this skill. If the PostZen MCP tools are in this session
+and the media is ready, offer `/ig-publish`: the caption goes in as
+`content`, hashtags included, and the first comment goes in
+`settings.firstComment`. The user confirms the whole post there, with the
+account and the time, before anything is sent. Otherwise they paste it.

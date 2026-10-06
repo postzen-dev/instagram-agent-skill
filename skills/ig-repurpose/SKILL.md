@@ -86,3 +86,29 @@ Say "write Tuesday" and I will draft it.
 Then draft on request, one at a time, each through `/ig-reel` and `/ig-human`.
 Do not dump four finished scripts at once. They will all sound the same and the
 user will shoot none of them.
+
+## Scheduling the week through PostZen
+
+When the posts are shot and cut and the PostZen MCP tools are in this session,
+offer to schedule the week through `/ig-publish`. Two ways to place them:
+
+- **Explicit times.** Each post gets its own `scheduledFor` with the user's
+  timezone offset, straight off the plan above.
+- **The queue.** Each post goes in with `queuedFromProfile`, and PostZen
+  gives it the profile's next free slot. This needs a queue with slots, which
+  `/ig-plan` sets up. Never fetch a slot with `getNextQueueSlot` and pass it
+  back as `scheduledFor`.
+
+**One confirmation covers the whole list**, and it lists everything: each
+post's day and time with timezone, format, account handle, first line of the
+caption and media file. In queue mode the time is not fixed until the call
+returns, so list the slots `previewQueue({ profileId })` shows, say that each
+post takes the next free one at send time, and report the `scheduledFor` that
+comes back. Show it, get the yes, then `/ig-publish` sends them one call at a
+time and checks each `platforms[].status` before moving on.
+Reels can sit in `publishing` for a while on their scheduled day; that is
+Instagram processing, not a failure, and it is why the log line carries the
+PostZen post id.
+
+If anything in the list changes after the yes, the yes is spent. Show the
+list again.
