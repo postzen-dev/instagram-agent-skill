@@ -33,7 +33,15 @@ For a project-local installation, copy the same folders into your repo’s `.cla
 
 You can also paste a single `SKILL.md` at the top of a chat to use it as a mode. The writing works without Claude Code, but the Python and PostZen tools are unavailable.
 
-**Connect Instagram:** Say “connect my Instagram”. `/ig-publish` requests a connect link from PostZen. Open it and complete Instagram Login. You need an Instagram **Business or Creator** account; personal accounts cannot connect. PostZen’s free plan covers 2 connected accounts.
+### Connect Instagram
+
+Say “connect my Instagram”. `/ig-publish` requests a connect link from PostZen. Before you open it:
+
+- Instagram calls Business and Creator accounts **professional accounts**; personal accounts cannot connect. Switching is free and reversible, but a private account becomes public. In the app, open **Settings and activity**, then **Account type and tools**, then **Switch to professional account**.
+- The page takes your Instagram username and password and does not offer “Log in with Facebook”. If you normally sign in through Facebook, set a password first (**Forgot password** works) or log in at instagram.com beforehand.
+- If the page stalls after login, log in at instagram.com in the same browser and open the connect link again (ask Claude for a fresh one if it expired). Retries usually go straight to the approval screen.
+
+PostZen’s free plan covers 2 connected accounts.
 
 Spend ten minutes filling in `templates/voice.md`. Copy it to `~/.claude/instagram/voice.md`, or send Claude three of your own Reels and say “write my voice.md from these”. All fourteen skills read that file. For Reel scripts, the wording needs to sound like something you would say out loud.
 
