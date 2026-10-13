@@ -10,7 +10,7 @@ The humanizer removes em dashes, stock phrases, and invisible watermark characte
 
 ## Install
 
-Paste this into Claude:
+Paste this into Claude or Codex:
 
 ```text
 https://github.com/postzen-dev/instagram-agent-skill
