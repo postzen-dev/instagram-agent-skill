@@ -277,7 +277,7 @@ to them.
 ## Step 7: log it
 
 On `published` or `scheduled`, append one line to
-`~/.claude/instagram/log.md`. `/ig-audit` reads it to match hook formulas to
+`~/.instagram-agent/log.md`. `/ig-audit` reads it to match hook formulas to
 results and `/ig-plan` reads it to avoid repeating a theme:
 
 ```

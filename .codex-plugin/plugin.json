@@ -1,0 +1,47 @@
+{
+  "name": "postzen-instagram",
+  "version": "1.2.0",
+  "description": "Fourteen Claude skills that run an Instagram account and, through the PostZen MCP server, publish, schedule, reply to comments and DMs, run comment-to-DM automations and read analytics via the official Instagram API. Reels off 26 hook formulas with a scored hook and a timed beat sheet, a research skill that ranks what is working in your niche by outlier multiple, captions linted against the feed truncation, carousels, stories, profile score, weekly plan, comments, replies, DMs, repurposing, audits, a humanizer that strips the AI fingerprint before anything ships, and a publish skill that verifies the post actually went out. Nothing is posted until you say yes.",
+  "author": {
+    "name": "PostZen",
+    "url": "https://www.postzen.dev"
+  },
+  "homepage": "https://github.com/postzen-dev/instagram-agent-skill",
+  "repository": "https://github.com/postzen-dev/instagram-agent-skill",
+  "license": "MIT",
+  "keywords": [
+    "instagram",
+    "postzen",
+    "mcp",
+    "reels",
+    "content",
+    "writing",
+    "humanizer",
+    "social",
+    "marketing",
+    "publishing",
+    "analytics"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Instagram Agent Skill",
+    "shortDescription": "14 skills to write, schedule and publish Instagram posts",
+    "longDescription": "Fourteen Claude skills that run an Instagram account and, through the PostZen MCP server, publish, schedule, reply to comments and DMs, run comment-to-DM automations and read analytics via the official Instagram API. Reels off 26 hook formulas with a scored hook and a timed beat sheet, a research skill that ranks what is working in your niche by outlier multiple, captions linted against the feed truncation, carousels, stories, profile score, weekly plan, comments, replies, DMs, repurposing, audits, a humanizer that strips the AI fingerprint before anything ships, and a publish skill that verifies the post actually went out. Nothing is posted until you say yes.",
+    "developerName": "PostZen",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://www.postzen.dev",
+    "privacyPolicyURL": "https://www.postzen.dev/privacy",
+    "termsOfServiceURL": "https://www.postzen.dev/terms",
+    "defaultPrompt": [
+      "Use the Instagram agent skill to write a Reel script from this idea and score the hook",
+      "Use the Instagram agent skill to schedule this Reel for my best time tomorrow",
+      "Use the Instagram agent skill to audit my last 30 posts"
+    ]
+  }
+}

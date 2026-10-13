@@ -82,7 +82,7 @@ Post the first. It concedes something and it has a number in it.
 
 For an engagement round, ask for the 5 to 10 posts as pasted text in one
 message, return one comment each in a single block, and keep a running note in
-`~/.claude/instagram/log.md` of who has been commented on this week.
+`~/.instagram-agent/log.md` of who has been commented on this week.
 Commenting on the same three accounts every day is visible and it looks like
 exactly what it is.
 

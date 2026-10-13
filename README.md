@@ -33,6 +33,22 @@ For a project-local installation, copy the same folders into your repo’s `.cla
 
 You can also paste a single `SKILL.md` at the top of a chat to use it as a mode. The writing works without Claude Code, but the Python and PostZen tools are unavailable.
 
+### Codex
+
+Codex reads the same plugin. Add this repo as a marketplace, install the plugin, then sign in to PostZen:
+
+```bash
+codex plugin marketplace add postzen-dev/instagram-agent-skill
+codex plugin add postzen-instagram@postzen-instagram
+codex mcp login postzen
+```
+
+That installs every skill and registers the PostZen MCP server. Once the marketplace is added, the plugin also shows up under it in the Plugins Directory of the ChatGPT or Codex desktop app. Call a skill with `$ig-...` (for example `$ig-reel`) or just describe the task.
+
+### ChatGPT
+
+ChatGPT accepts the same `SKILL.md` files. Go to **Plugins**, open the **Skills** tab, choose **Create**, then **Upload from your computer**, and upload a skill from `skills/`. Skills in ChatGPT are available on eligible Business, Enterprise, Healthcare and Edu plans. The writing works there. We have not tested whether ChatGPT runs the bundled Python scripts; Claude Code and Codex do. Publishing to Instagram from ChatGPT also needs PostZen as a custom MCP server (**Plugins**, then **+**, then **Add custom MCP server**, URL `https://mcp.postzen.dev/mcp`), if your plan allows custom MCP servers.
+
 ### Connect Instagram
 
 Say “connect my Instagram”. `/ig-publish` requests a connect link from PostZen. Before you open it:
@@ -43,7 +59,7 @@ Say “connect my Instagram”. `/ig-publish` requests a connect link from PostZ
 
 PostZen’s free plan covers 2 connected accounts.
 
-Spend ten minutes filling in `templates/voice.md`. Copy it to `~/.claude/instagram/voice.md`, or send Claude three of your own Reels and say “write my voice.md from these”. All fourteen skills read that file. For Reel scripts, the wording needs to sound like something you would say out loud.
+Spend ten minutes filling in `templates/voice.md`. Copy it to `~/.instagram-agent/voice.md`, or send Claude three of your own Reels and say “write my voice.md from these”. All fourteen skills read that file. For Reel scripts, the wording needs to sound like something you would say out loud.
 
 ## The fourteen skills
 
@@ -172,7 +188,7 @@ After `humanize.py`, with the flagged structures still awaiting a rewrite:
 ### The swipe file
 
 ```bash
-python3 swipe.py captured.tsv --out ~/.claude/instagram/swipe.md
+python3 swipe.py captured.tsv --out ~/.instagram-agent/swipe.md
 ```
 
 View counts need context. A post with 400,000 views means something different on an account with 2,000,000 followers than on one with 4,000.

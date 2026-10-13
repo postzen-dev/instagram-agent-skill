@@ -1,8 +1,12 @@
 # voice.md
 
-Copy this to `~/.claude/instagram/voice.md` and fill it in. Every skill in the
+Copy this to `~/.instagram-agent/voice.md` and fill it in. Every skill in the
 pack reads it. Ten minutes here is the difference between scripts you shoot and
 scripts you rewrite.
+
+Older installs used `~/.claude/instagram/`. The skills still read `voice.md`
+from there, but move the folder to `~/.instagram-agent/` so the log, plan and
+swipe file land in one place.
 
 If you would rather not fill it in by hand, send Claude three of your own reels
 or captions and say "write my voice.md from these". That works better than

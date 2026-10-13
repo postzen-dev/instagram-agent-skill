@@ -14,7 +14,9 @@ executed. Run it once a week, on the same day.
 
 ## Input
 
-If `~/.claude/instagram/voice.md`, `swipe.md` and `log.md` exist, read them.
+If `~/.instagram-agent/voice.md`, `swipe.md` and `log.md` exist, read them.
+Older installs kept these in `~/.claude/instagram/`; read from there if the
+new folder is missing.
 The swipe file is the user's own evidence from `/ig-viral` about which formulas
 are landing in their niche right now, and it outranks anything in this file.
 The log stops the plan repeating a theme from the last fortnight.
@@ -139,6 +141,6 @@ ENGAGE  (5 reach / 3 peers / 2 buyers)
 Say "write Tuesday" and I will draft it.
 ```
 
-Write the plan to `~/.claude/instagram/plan.md` so the other skills can read
+Write the plan to `~/.instagram-agent/plan.md` so the other skills can read
 it. Nothing is scheduled or posted by this skill. This is a plan; the user
 runs it, and `/ig-publish` schedules each post once it exists.
