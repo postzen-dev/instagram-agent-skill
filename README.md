@@ -1,6 +1,6 @@
 # The Instagram agent skill
 
-Fourteen Claude skills for running an Instagram account. Connect [PostZen](https://www.postzen.dev) to publish, schedule, reply to comments and DMs, run comment-to-DM automations, and read analytics through the official Instagram API.
+Fourteen Claude skills for running an Instagram account. Connect [PostZen](https://www.postzen.dev/?utm_source=github&utm_medium=skill&utm_campaign=instagram-agent-skill) to publish, schedule, reply to comments and DMs, run comment-to-DM automations, and read analytics through the official Instagram API.
 
 The skills cover Reel scripts, niche research, captions, profile reviews, weekly planning, and publishing. The Reel writer uses 26 hook formulas and scores your options. The research skill ranks Reels against each account’s own performance. The caption writer previews the text visible before “… more”. The profile reviewer scores your account out of 100 and rewrites the parts that lost points.
 
